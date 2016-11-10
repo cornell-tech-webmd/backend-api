@@ -1,2 +1,2 @@
-# backend-api
-Supporting backend data API for the Insta Health mobile app and clinic app
+# Instant Doctor Visit App
+Prouct Studio - Cornell Fall 2016
