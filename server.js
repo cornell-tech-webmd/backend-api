@@ -199,6 +199,26 @@ app.get('/get_clinic',function(req,res){
   }
   return;
 });
+
+app.get('/get_insurances',function(req,res){
+  var list_insurance = ['Unitedhealth Group',
+  'Wellpoint Inc. Group', 'Kaiser Foundation Group',
+   'Humana Group', 'Aetna Group',
+    'HCSC Group', 'Cigna Health Group',
+    'Highmark Group', 'Coventry Corp. Group',
+    'HIP Insurance Group',
+    'Independence Blue Cross Group', 'Blue Cross Blue Shield of New Jersey Group',
+    'Blue Cross Blue Shield of Michigan Group',
+    'California Physicians Service', 'Blue Cross Blue Shield of Florida Group',
+    'Health Net of California, Inc.', 'Centene Corp. Group',
+    'Carefirst Inc. Group', 'Wellcare Group',
+    'Blue Cross Blue Shield of Massachusetts Group', 'UHC of California',
+     'Lifetime Healthcare Group', 'Cambia Health Solutions Inc.', 'Metropolitan Group',
+     'Molina Healthcare Inc. Group'];
+     res.status(200).end(JSON.stringify(list_insurance));
+     return;
+});
+
 //server will continue run if error found
 process.on('uncaughtException', function (err) {
   console.error(err);
