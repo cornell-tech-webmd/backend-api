@@ -5,18 +5,50 @@ var bodyParser = require('body-parser');
 var fs = require("fs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+function getFiles (dir, files_){
+    files_ = files_ || [];
+    var files = fs.readdirSync(dir);
+    for (var i in files){
+        var name = dir + '/' + files[i];
+        if (fs.statSync(name).isDirectory()){
+            getFiles(name, files_);
+        } else {
+            files_.push(name);
+        }
+    }
+    return files_;
+}
 
 
 app.post('/create_user', function(req,res){
   var postBody = req.body;
-  var user_id = postBody.user_id;
+  var email_address = postBody.email_address;
+  // console.log(email_address);
   var fs = require('fs');
   var dir = './user_file';
+  var max_id = 0;
+  // check if the directory exists
   if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
   }
+  // read the dirctory files and get the max user_id
+  var filenames = getFiles(dir);
+  for(var i = 0; i < filenames.length; i++){
+    var temp_id = filenames[i].match(/\d/g);
+    if(temp_id != null){
+      // join those numbers
+      temp_id = temp_id.join("");
+      temp_id = parseInt(temp_id);
+      console.log(temp_id);
+    }
+    if(temp_id > max_id){
+      max_id = temp_id;
+    }
+  }
+  // increment the user_id by one
+  var user_id = max_id + 1;
   var file_name = dir + '/' + user_id + ".json";
+  postBody.user_id = user_id;
   if (!fs.existsSync(file_name)){
     fs.writeFile(file_name, JSON.stringify(postBody), function (err) {
      if (err) return console.log(err);})
@@ -172,6 +204,8 @@ process.on('uncaughtException', function (err) {
   console.error(err);
   console.log("I am still running...");
 });
+
+
 var server = app.listen(3000, function () {
                         var port = server.address().port;
                         console.log('Server started at http://localhost:%s/', port);
