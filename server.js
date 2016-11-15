@@ -58,7 +58,7 @@ app.post('/create_user', function(req,res){
     res.status(400).send('user_id exists, cannot create');
   }
   return;
-  });
+});
 
 app.post('/update_user', function(req,res){
   var postBody = req.body;
@@ -73,7 +73,7 @@ app.post('/update_user', function(req,res){
     res.status(400).send('Come on, you dont have this user, create first');
   }
   return;
-  });
+});
 
 app.get('/get_user',function(req,res){
   // Varad Preference for query parameters
@@ -113,7 +113,7 @@ app.post('/create_doctor', function(req,res){
     res.status(400).send('user_id exists, cannot create');
   }
   return;
-  });
+});
 
 app.post('/update_doctor', function(req,res){
   var postBody = req.body;
@@ -128,7 +128,7 @@ app.post('/update_doctor', function(req,res){
   else{
     res.status(400).send('doctor_id does not exist, create first');
   }
-  });
+});
 
 app.get('/get_doctor',function(req,res){
   var doctor_id = req.query.doctor_id;
@@ -166,7 +166,7 @@ app.post('/create_clinic', function(req,res){
     res.status(400).send('clinic_id already exists');
   }
   return;
-  });
+});
 
 app.post('/update_clinic', function(req,res){
   var postBody = req.body;
@@ -181,7 +181,7 @@ app.post('/update_clinic', function(req,res){
     res.status(400).send('clinic_id does not exist, canont upgrade');
   }
   return;
-  });
+});
 
 app.get('/get_clinic',function(req,res){
   var clinic_id = req.query.clinic_id;
@@ -205,8 +205,7 @@ process.on('uncaughtException', function (err) {
   console.log("I am still running...");
 });
 
-
-var server = app.listen(3000, function () {
-                        var port = server.address().port;
-                        console.log('Server started at http://localhost:%s/', port);
-                        });
+var port = process.env.PORT || 3000;
+var server = app.listen(port, function () {
+  console.log('Server started at http://localhost:%s/', port);
+});
