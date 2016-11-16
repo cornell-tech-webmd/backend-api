@@ -194,7 +194,7 @@ app.post('/add_appointment',function(req,res){
   return;
 });
 
-app.get('/find_doctor',function(req,res){
+app.get('/find_doctor/',function(req,res){
   var user_id = req.query.user_id;
   var care_type = req.query.care_type;
   var lat = req.query.lat;
@@ -248,10 +248,8 @@ app.get('/find_doctor',function(req,res){
                 if (err) throw err;
                 var obj = JSON.parse(data);
                 // if this clinic accepts this insurance, save this clinic ID
-                if(clinic_list.includes(obj.clinic_id)){
-                  // console.log(obj.clinic_id);
+                if(clinic_list.includes(obj.clinic_id) && obj.care_type == care_type){
                   doctor_list.push(obj.doctor_id);
-
                 }
                 remaining2 --;
                 if(remaining2 == 0){
