@@ -9,4 +9,5 @@ curl -H "Content-Type: application/json" -X POST -d '{"email_address":"123@321.e
 
 curl -H "Content-Type: application/json" -X POST -d '{"user_id":1,"doctor_id":2}' http://localhost:3000/add_appointment
 
-curl -X GET  http://localhost:3000/find_doctor?user_id=1&care_type=medical&lat=0&long=0
+#NONTRIVIAL:defintely put quotes for http curl, otherwise only one single query parameter, so stupid
+curl -X GET  "http://localhost:3000/find_doctor?user_id=1&care_type=medical&lat=0&long=0"
