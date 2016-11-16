@@ -27,9 +27,9 @@ router.get("/contact",function(req,res){
 
 app.use("/",router);
 
-app.use("*",function(req,res){
-  res.sendFile(path + "404.html");
-});
+//app.use("*",function(req,res){
+//  res.sendFile(path + "404.html");
+//});
 
 function getFiles (dir, files_){
     files_ = files_ || [];
@@ -44,7 +44,10 @@ function getFiles (dir, files_){
     }
     return files_;
 }
-
+// To-Do: check the long, lat is within 1 mile
+function inRadius (long, lat){
+  return true;
+}
 app.post('/create_user', function(req,res){
   var postBody = req.body;
   var email_address = postBody.email_address;
@@ -162,7 +165,6 @@ app.get('/get_doctor',function(req,res){
     fs.readFile(file_name, 'utf8',function (err, data)  {
       if (err) throw err;
       var obj = JSON.parse(data);
-      console.log(obj);
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(obj));
     });
@@ -183,13 +185,85 @@ app.post('/add_appointment',function(req,res){
       if (err) throw err;
       var obj = JSON.parse(data);
       obj.in_appointment_with = doctor_id;
-      console.log(obj);
-      // res.setHeader('Content-Type', 'application/json');
-      // res.send(JSON.stringify(obj));
+      res.status(200).send("Appointment made! ");
     });
   }
   else{
     res.status(400).send('user does not exist!');
+  }
+  return;
+});
+
+app.get('/find_doctor',function(req,res){
+  var user_id = req.query.user_id;
+  var care_type = req.query.care_type;
+  var lat = req.query.lat;
+  var long = req.query.long;
+  var user_insurance;
+  var clinic_list = [];
+  var doctor_list = [];
+  var file_name = './user_file/' + user_id + ".json";
+  if (fs.existsSync(file_name)){
+    fs.readFile(file_name, 'utf8',function (err, data)  {
+      if (err) throw err;
+      var obj = JSON.parse(data);
+      user_insurance = obj.insurance_name;
+    });
+  }
+  else{
+    res.status(400).send('user_id does not exist!');
+  }
+  var dir = './clinic_file';
+  var filenames = getFiles(dir);
+  //IMPORTANT, this is hard code to avoid async problem
+  //remaining = filename.length - 1 is assuming there .DS_STORE file for git
+  //if pure json file, remove -1
+  //again, this is fuking significant, i repeat, FUKING IMPORTANT
+  var remaining = filenames.length-1;
+  for(var i = 0; i < filenames.length; i++){
+    // read the file only if it is .json file
+
+    if(filenames[i].includes(".json"))
+    {
+      fs.readFile(filenames[i], 'utf8',function (err, data)  {
+        if (err) throw err;
+        var obj = JSON.parse(data);
+        // if this clinic accepts this insurance, save this clinic ID
+        if(obj.insurance_list.includes(user_insurance)){
+          // console.log(obj.clinic_id);
+          clinic_list.push(obj.clinic_id);
+
+        }
+        remaining--;
+        // now have all the clinic_id inside clinic_list
+        if(remaining == 0){
+
+          var dir2 = './doc_file';
+          var filenames2 = getFiles(dir2);
+          var remaining2 = filenames2.length - 1;
+          for(var i = 0; i < filenames2.length; i++){
+            if(filenames2[i].includes(".json"))
+            {
+              fs.readFile(filenames2[i], 'utf8',function (err, data)  {
+                if (err) throw err;
+                var obj = JSON.parse(data);
+                // if this clinic accepts this insurance, save this clinic ID
+                if(clinic_list.includes(obj.clinic_id)){
+                  // console.log(obj.clinic_id);
+                  doctor_list.push(obj.doctor_id);
+
+                }
+                remaining2 --;
+                if(remaining2 == 0){
+                  res.setHeader('Content-Type', 'application/json');
+                  res.send(JSON.stringify(doctor_list));
+                }
+            });
+          }
+        }
+       }
+      });
+    }
   }
   return;
 });
