@@ -148,6 +148,27 @@ app.get('/get_doctor',function(req,res){
   return;
 });
 
+app.post('/add_appointment',function(req,res){
+  var postBody = req.body;
+  var user_id = postBody.user_id;
+  var doctor_id = postBody.doctor_id;
+  var file_name = './user_file/' + user_id + ".json";
+  if (fs.existsSync(file_name)){
+    fs.readFile(file_name, 'utf8',function (err, data)  {
+      if (err) throw err;
+      var obj = JSON.parse(data);
+      obj.in_appointment_with = doctor_id;
+      console.log(obj);
+      // res.setHeader('Content-Type', 'application/json');
+      // res.send(JSON.stringify(obj));
+    });
+  }
+  else{
+    res.status(400).send('user does not exist!');
+  }
+  return;
+});
+
 app.post('/create_clinic', function(req,res){
   var postBody = req.body;
   var clinic_id = postBody.clinic_id;
@@ -199,6 +220,7 @@ app.get('/get_clinic',function(req,res){
   }
   return;
 });
+
 
 app.get('/get_insurances',function(req,res){
   var list_insurance = ['Unitedhealth Group',
