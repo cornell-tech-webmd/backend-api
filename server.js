@@ -106,21 +106,50 @@ app.post('/update_user', function(req,res){
 app.get('/get_user',function(req,res){
   // Varad Preference for query parameters
   // var user_id = req.params[0];
-  var user_id = req.query.user_id;
-  var file_name = './user_file/' + user_id + ".json";
-  if (fs.existsSync(file_name)){
-    fs.readFile(file_name, 'utf8',function (err, data)  {
-      if (err) throw err;
-      var obj = JSON.parse(data);
-      res.setHeader('Content-Type', 'application/json');
-      res.status(200).send(JSON.stringify(obj));
-    });
-  }
-  else{
-    res.status(400).send('User not exists');
-  }
+    var user_id = req.query.user_id;
+    var email_address = req.query.email_address;
+    if(user_id != null){
+      var file_name = './user_file/' + user_id + ".json";
+      if (fs.existsSync(file_name)){
+        fs.readFile(file_name, 'utf8',function (err, data)  {
+          if (err) throw err;
+          var obj = JSON.parse(data);
+          res.setHeader('Content-Type', 'application/json');
+          res.status(200).send(JSON.stringify(obj));
+        });
+      }
+      else{
+        res.status(400).send('User not exists');
+      }
+    }
+    if(email_address != null){
+      var dir = "./user_file/";
+      var filenames = getFiles(dir);
+      var remaining = filenames.length-1;
+      var databack;
+      for(var i = 0; i < filenames.length; i++){
+        // read the file only if it is .json file
+        if(filenames[i].includes(".json"))
+        {
+          fs.readFile(filenames[i], 'utf8',function (err, data)  {
+            if (err) throw err;
+            var obj = JSON.parse(data);
+            remaining --;
+            if(obj.email_address == email_address ){
+              databack = obj;
+            }
+            if(remaining == 0){
+              res.setHeader('Content-Type', 'application/json');
+              res.status(200).send(JSON.stringify(databack));
+             }
+          });
+        }
+      }
+
+    }
   return;
 });
+
 
 app.post('/create_doctor', function(req,res){
   var postBody = req.body;
@@ -318,6 +347,22 @@ app.get('/get_clinic',function(req,res){
   return;
 });
 
+app.get('/get_clinic_doctors',function(req,res){
+  var clinic_id = req.query.clinic_id;
+  var file_name = './clinic_file/' + clinic_id + ".json";
+  if (fs.existsSync(file_name)){
+    fs.readFile(file_name, 'utf8',function (err, data)  {
+      if (err) throw err;
+      var obj = JSON.parse(data);
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).end(JSON.stringify(obj));
+    });
+  }
+  else{
+      res.status(400).send("clinic_id does not exist, bad request dude");
+  }
+  return;
+});
 
 app.get('/get_insurances',function(req,res){
   var list_insurance = ['Unitedhealth Group',
