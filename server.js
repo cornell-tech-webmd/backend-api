@@ -338,17 +338,27 @@ app.get('/get_clinic',function(req,res){
 
 app.get('/get_clinic_doctors',function(req,res){
   var clinic_id = req.query.clinic_id;
-  var file_name = './clinic_file/' + clinic_id + ".json";
-  if (fs.existsSync(file_name)){
-    fs.readFile(file_name, 'utf8',function (err, data)  {
-      if (err) throw err;
-      var obj = JSON.parse(data);
-      res.setHeader('Content-Type', 'application/json');
-      res.status(200).end(JSON.stringify(obj));
-    });
-  }
-  else{
-      res.status(400).send("clinic_id does not exist, bad request dude");
+  var dir = "./doc_file/";
+  var filenames = getFiles(dir);
+  var remaining = filenames.length-1;
+  var doctor_list = [];
+  for(var i = 0; i < filenames.length; i++){
+    // read the file only if it is .json file
+    if(filenames[i].includes(".json"))
+    {
+      fs.readFile(filenames[i], 'utf8',function (err, data)  {
+        if (err) throw err;
+        var obj = JSON.parse(data);
+        remaining --;
+        if(obj.clinic_id == clinic_id){
+          doctor_list.push(obj.doctor_id);
+        }
+        if(remaining == 0){
+          res.setHeader('Content-Type', 'application/json');
+          res.status(200).send(JSON.stringify(doctor_list));
+         }
+      });
+    }
   }
   return;
 });
