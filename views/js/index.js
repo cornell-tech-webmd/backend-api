@@ -25,6 +25,8 @@ var user_id;
 			
 		// register a new user and then redirect
 		} else {
+			post_body = {"email_address":$("#loginform #emailaddress input").val(),"first_name":$("#loginform #firstname input").val(),"last_name":$("#loginform #lastname input").val()};
+
 			$.post("/create_user", function(data) {
 				window.location = "explore.html?user_id=" + data;
 			});
