@@ -69,7 +69,7 @@ app.post('/create_user', function(req,res){
   if (!fs.existsSync(file_name)){
     fs.writeFile(file_name, JSON.stringify(postBody), function (err) {
      if (err) return console.log(err);})
-    res.status(200).send('Created!');
+    res.status(200).send(user_id);
   }
   else{
     res.status(400).send('user_id exists, cannot create');
