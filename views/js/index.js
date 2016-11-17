@@ -26,7 +26,7 @@ var user_id;
 		// register a new user and then redirect
 		} else {
 			$.post("/create_user", function(data) {
-				window.location = "explore.html?user_id=" + data.user_id;
+				window.location = "explore.html?user_id=" + data;
 			});
 		}
 	});
