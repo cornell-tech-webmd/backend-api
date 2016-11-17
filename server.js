@@ -17,19 +17,8 @@ router.get("/",function(req,res){
   res.sendFile(path + "index.html");
 });
 
-router.get("/about",function(req,res){
-  res.sendFile(path + "about.html");
-});
-
-router.get("/contact",function(req,res){
-  res.sendFile(path + "contact.html");
-});
-
+app.use(express.static('views'));
 app.use("/",router);
-
-//app.use("*",function(req,res){
-//  res.sendFile(path + "404.html");
-//});
 
 function getFiles (dir, files_){
     files_ = files_ || [];
@@ -104,7 +93,6 @@ app.post('/update_user', function(req,res){
 });
 
 app.get('/get_user',function(req,res){
-  // Varad Preference for query parameters
   // var user_id = req.params[0];
   var user_id = req.query.user_id;
   var file_name = './user_file/' + user_id + ".json";
@@ -169,6 +157,7 @@ app.get('/get_doctor',function(req,res){
       res.send(JSON.stringify(obj));
     });
   }
+
   else{
     res.status(400).send('doctor_id does not exist!');
   }
@@ -336,6 +325,10 @@ app.get('/get_insurances',function(req,res){
      'Molina Healthcare Inc. Group'];
      res.status(200).end(JSON.stringify(list_insurance));
      return;
+});
+
+app.use("*",function(req,res){
+  res.sendFile(path + "404.html");
 });
 
 //server will continue run if error found
