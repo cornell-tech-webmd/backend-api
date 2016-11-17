@@ -34,7 +34,7 @@ var user_id;
   				success: function(data) {
                 	window.location = "explore.html?user_id=" + data;
             	},
-  				dataType: "application/json"
+  				dataType: "text/plain"
 			});
 			//$.post("/create_user", post_body, function(data) {
 			//	window.location = "explore.html?user_id=" + data;
