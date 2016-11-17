@@ -12,8 +12,7 @@ var user_id;
 				$('#loginform #lastname').removeClass('hide');
 			}, success: function(result){
 				$('#loginform #pincode').removeClass('hide');
-				console.log(result);
-				user_id=1;
+				user_id=result.user_id;
 			}	
 		});
 		$("#loginform #submit a#next").addClass('hide');
@@ -21,18 +20,19 @@ var user_id;
 	});
 	$("#loginform #submit a#login").click(function(e){
 		// existing user, just redirect
-		if (user_id == null) {
-			console.log('existing user redirect');
-
+		if (user_id != null) {
+			window.location = "explore.html?user_id=" + user_id;
+			
 		// register a new user and then redirect
 		} else {
-			console.log('new user redirect');
+			$.post("/create_user", function(data) {
+				window.location = "explore.html?user_id=" + data.user_id;
+			});
 		}
 	});
 	$(document).on("keypress", "form", function(event) { 
     	return event.keyCode != 13;
 	});
-
 	
 	// iPad and iPod detection	
 	var isiPad = function(){
