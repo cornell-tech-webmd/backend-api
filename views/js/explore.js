@@ -119,3 +119,6 @@ $(document).ready(function() {
                                     });
                   
                   });
+                  $("#profile").click(function(){
+                       window.location = "profile.html?user_id=" + user_id; 
+                    });  
