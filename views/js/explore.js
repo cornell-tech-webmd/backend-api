@@ -41,7 +41,6 @@ $(document).ready(function() {
  	var marker = new google.maps.Marker({
  		position: myLatlng,
  		icon:patientImage,
- 		animation: google.maps.Animation.BOUNCE,
  		// new google.maps.Size(21,34),
  	});
  	marker.setMap(map);
