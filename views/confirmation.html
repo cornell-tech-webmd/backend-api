@@ -29,7 +29,7 @@
 	<link rel="stylesheet" href="css/salvattore.css">
 	<!-- Theme Style -->
 	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="css/confirmation.css">
+	<link rel="stylesheet" href="css/explore.css">
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
 </head>
@@ -56,11 +56,20 @@
 			<div class="row">
 				<div class="col-md-12">
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle" data-toggle="collapse" data-target="#fh5co-navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
-					<a href="index.html" class="navbar-brand"><span>Insta Health</span></a>
+					<div href="javascript:void(0)" class="caretypetab current">Medical</div>
+					<div href="javascript:void(0)" class="caretypetab">Dental</div>
+					<div href="javascript:void(0)" class="caretypetab">Vision</div>
 				</div>
 			</div>
 			<div class="row theme-bg" id="navbar-filters">
-				<span class="theme-bg">Insurance <div>Aetna Group</div> Near <div>Current Location</div></span>
+				<h2 style="color:rgb(255,255,255)"> Appointment Confirmed!:</h2>
+				<span class="theme-bg" id="doc_img"></span><br>
+				<span id="doc_name"></span><br>
+				<span id="cli_name"></span><br>
+				<span id="cli_addr"></span><br>
+				<button class="btn btn-primary" >Get Directions</button><button class="btn btn-primary" >Request Uber</button>
+			</div>
+			<div class="row" id="map_canvas">
 			</div>
 		</div>
 	</div>
