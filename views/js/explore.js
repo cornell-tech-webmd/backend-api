@@ -47,9 +47,11 @@ $(document).ready(function() {
 						console.log(res);
 						$.get('/get_clinic?clinic_id=' + res.clinic_id, {}, function(res,resp) {
 							console.log(res);
+							var image = 'images/hosp.png';
 							var marker = new google.maps.Marker({
 								position: new google.maps.LatLng(res.lat, res.long),
 								label:String(doc.doctor_id),
+								icon:image,
 								map:map
 							});
 						}, "json");
