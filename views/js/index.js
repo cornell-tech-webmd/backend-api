@@ -34,11 +34,8 @@ var user_id;
   				success: function(data) {
                 	window.location = "explore.html?user_id=" + data;
             	},
-  				dataType: "text/plain"
+  				dataType: "application/json"
 			});
-			//$.post("/create_user", post_body, function(data) {
-			//	window.location = "explore.html?user_id=" + data;
-			//});
 		}
 	});
 	$(document).on("keypress", "form", function(event) { 
