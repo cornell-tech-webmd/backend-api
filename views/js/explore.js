@@ -26,42 +26,65 @@ $(document).ready(function() {
 	var currentPos;
 	var map;
 	var infowindow;
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-																						 currentPos = {
-																						 lat: position.coords.latitude,
-																						 lng: position.coords.longitude
-																						 };
-																						 console.log(currentPos.lat);
-																					   console.log(currentPos.lng);
-																						 var ZOOM = 16;
-																						 // pin you current location
-																						 var patientImage = {
-																							 url: 'images/patient1.png',
-																						   scaledSize : new google.maps.Size(32, 32),
-																					    };
-																						 var myLatlng = new google.maps.LatLng(currentPos.lat,currentPos.lng);
-																								var myOptions = {
-																										zoom: ZOOM,
-																										center: myLatlng,
-																										mapTypeId: google.maps.MapTypeId.ROADMAP,
+	// if (navigator.geolocation) {
+	// 	navigator.geolocation.getCurrentPosition(function(position) {
+	// 																					 currentPos = {
+	// 																					 lat: position.coords.latitude,
+	// 																					 lng: position.coords.longitude
+	// 																					 };
+	// 																					 console.log(currentPos.lat);
+	// 																				   console.log(currentPos.lng);
+	// 																					 var ZOOM = 16;
+	// 																					 // pin you current location
+	// 																					 var patientImage = {
+	// 																						 url: 'images/patient1.png',
+	// 																					   scaledSize : new google.maps.Size(32, 32),
+	// 																				    };
+	// 																					 var myLatlng = new google.maps.LatLng(currentPos.lat,currentPos.lng);
+	// 																							var myOptions = {
+	// 																									zoom: ZOOM,
+	// 																									center: myLatlng,
+	// 																									mapTypeId: google.maps.MapTypeId.ROADMAP,
+	//
+	// 																							}
+	// 																					 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions)
+	//  																					 infowindow = new google.maps.InfoWindow();
+	// 																					var marker = new google.maps.Marker({
+	// 																								position: myLatlng,
+	// 																								icon:patientImage,
+	// 																								animation: google.maps.Animation.BOUNCE,
+	// 																								// new google.maps.Size(21,34),
+	// 																							});
+	// 																					 marker.setMap(map);
+	// 																					 markDoctors();
+	//
+	// 					});
+	// }
+	var START_LAT = 40.741077;
+  var START_LONG = -74.002160;
+	var ZOOM = 16;
+ 																					
+  var patientImage = {
+ 													url: 'images/patient1.png',
+ 													scaledSize : new google.maps.Size(32, 32),
+ 											};
+var myLatlng = new google.maps.LatLng(START_LAT, START_LONG);
+ var myOptions = {
+ 																									zoom: ZOOM,
+ 																									center: myLatlng,
+ 																									mapTypeId: google.maps.MapTypeId.ROADMAP,
 
-																								}
-																						 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions)
-	 																					 infowindow = new google.maps.InfoWindow();
-																						var marker = new google.maps.Marker({
-																									position: myLatlng,
-																									icon:patientImage,
-																									animation: google.maps.Animation.BOUNCE,
-																									// new google.maps.Size(21,34),
-																								});
-																						 marker.setMap(map);
-																						 markDoctors();
-
-						});
-	}
-	// var START_LAT = 40.741077;
-  // var START_LONG = -74.002160;
+ 									}
+ 					        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions)
+  							  infowindow = new google.maps.InfoWindow();
+ 									var marker = new google.maps.Marker({
+ 																								position: myLatlng,
+ 																								icon:patientImage,
+ 																								animation: google.maps.Animation.BOUNCE,
+ 																								// new google.maps.Size(21,34),
+ 																							});
+ 								marker.setMap(map);
+ 								markDoctors();
 
 	function markDoctors() {
 		$.get('/get_user?user_id=' + user_id, {}, function(res,resp) {
