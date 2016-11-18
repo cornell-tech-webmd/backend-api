@@ -22,31 +22,58 @@ $(document).ready(function() {
 		$('.caretypetab').removeClass('current');
 		$(this).addClass('current');
 	});
-	
-	var START_LAT = 40.741077;
-	var START_LONG = -74.002160;
-	var ZOOM = 15;
+	//get current user current location
+	var currentPos;
+	var map;
+	var infowindow;
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+																						 currentPos = {
+																						 lat: position.coords.latitude,
+																						 lng: position.coords.longitude
+																						 };
+																						 console.log(currentPos.lat);
+																					   console.log(currentPos.lng);
+																						 var ZOOM = 16;
+																						 // pin you current location
+																						 var patientImage = {
+																							 url: 'images/patient1.png',
+																						   scaledSize : new google.maps.Size(32, 32),
+																					    };
+																						 var myLatlng = new google.maps.LatLng(currentPos.lat,currentPos.lng);
+																								var myOptions = {
+																										zoom: ZOOM,
+																										center: myLatlng,
+																										mapTypeId: google.maps.MapTypeId.ROADMAP,
 
-	var myLatlng = new google.maps.LatLng(START_LAT,START_LONG);
-    var myOptions = {
-        zoom: ZOOM,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-    }
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-	var infowindow = new google.maps.InfoWindow();
-	markDoctors();
+																								}
+																						 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions)
+	 																					 infowindow = new google.maps.InfoWindow();
+																						var marker = new google.maps.Marker({
+																									position: myLatlng,
+																									icon:patientImage,
+																									animation: google.maps.Animation.BOUNCE,
+																									// new google.maps.Size(21,34),
+																								});
+																						 marker.setMap(map);
+																						 markDoctors();
+
+						});
+	}
+	// var START_LAT = 40.741077;
+  // var START_LONG = -74.002160;
 
 	function markDoctors() {
 		$.get('/get_user?user_id=' + user_id, {}, function(res,resp) {
 			var insur = res.insurance_name;
-			$.get('/find_doctors?user_id=' + user_id + '&care_type=' + care_type + '&user_insurance=' + insur, {}, function(res,resp) {			
+			$.get('/find_doctors?user_id=' + user_id + '&care_type=' + care_type + '&user_insurance=' + insur, {}, function(res,resp) {
+
 				for (var i = 0; i < res.length; i++) {
 					$.get('/get_doctor?doctor_id=' + res[i], {}, function(res,resp) {
 						var doc = res;
-						console.log(res);
+						// console.log(res);
 						$.get('/get_clinic?clinic_id=' + res.clinic_id, {}, function(res,resp) {
-							console.log(res);
+							// console.log(res);
 							var image = 'images/hosp.png';
 							var marker = new google.maps.Marker({
 								position: new google.maps.LatLng(res.lat, res.long),
