@@ -34,7 +34,7 @@ $(document).ready(function() {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
     }
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
+	var infowindow = new google.maps.InfoWindow();
 	markDoctors();
 
 	function markDoctors() {
@@ -54,6 +54,12 @@ $(document).ready(function() {
 								icon:image,
 								map:map
 							});
+							google.maps.event.addListener(marker, 'click', function() {
+				              infowindow.setContent('<div>' + '<img src=' + doc.image_url + 'height=42 width=42>' +
+				              	'<strong>' + doc.first_name + ' ' + doc.last_name + '</strong><br>' +
+				                'Rating: ' + JSON.stringify(doc.ratings.yelp) + '<br></div>');
+				              infowindow.open(map, this);
+				            });
 						}, "json");
 					}, "json");
 				}
