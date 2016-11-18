@@ -41,11 +41,12 @@ $(document).ready(function() {
     });
     marker.setMap(map);
     markDest();
-	
+	$('#map_canvas').css({'width':'312px','height':'720px'});
 	function markDest() {
 		$.get('/get_doctor?doctor_id=' + doc_id, {}, function(res,resp) {
             console.log(res);
             var doc = res;
+
             $("#doc_img").html("<img src=" + doc.image_url + " style=width:80px height:80px>");
             $("#doc_name").html(doc.first_name + " " + doc.last_name);
             $.get('/get_clinic?clinic_id=' + res.clinic_id, {}, function(res,resp) {
@@ -62,4 +63,11 @@ $(document).ready(function() {
             }, "json");
 	  	}, "json");
 	}
+    // $("#uber").click(function(){
+    //             window.location = "uber://";
+    //             console.log("I am sending you to uber");
+    //
+    // });
+
+
 });
