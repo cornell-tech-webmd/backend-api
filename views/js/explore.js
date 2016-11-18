@@ -26,7 +26,7 @@ $(document).ready(function() {
 	
 	var START_LAT = 40.741077;
 	var START_LONG = -74.002160;
-	var ZOOM = 15
+	var ZOOM = 15;
 
 	var myLatlng = new google.maps.LatLng(START_LAT,START_LONG);
     var myOptions = {
