@@ -314,7 +314,7 @@ app.post('/update_clinic', function(req,res){
     res.status(200).send('OK');
   }
   else{
-    res.status(400).send('clinic_id does not exist, canont upgrade');
+    res.status(400).send('clinic_id does not exist, cannot upgrade');
   }
   return;
 });
