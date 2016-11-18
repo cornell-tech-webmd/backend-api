@@ -59,8 +59,9 @@ $(document).ready(function() {
                                           var image = 'images/hosp.png';
                                           var marker = new google.maps.Marker({
                                                                               position: new google.maps.LatLng(res.lat, res.long),
-                                                                              label:String(doc.doctor_id),
+//                                                                              label:String(doc.doctor_id),
                                                                               icon:image,
+                                                                               animation: google.maps.Animation.BOUNCE,
                                                                               map:map
                                                                               });
                                           google.maps.event.addListener(marker, 'click', function() {
