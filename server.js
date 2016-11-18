@@ -37,16 +37,6 @@ function inRadius (long, lat){
   return true;
 }
 
-app.get('/markers', function(req, res) {
-  var markerData = [];
-  markerData.push({id:2,name:"Doc 2", position:{"lat":40.739070,"long":-74.000000}});
-  markerData.push({id:3,name:"Doc 3", position:{"lat":40.741077,"long":-74.002160}});
-  markerData.push({id:4,name:"Doc 4", position:{"lat":40.743080,"long":-74.004165}});
-  markerData.push({id:5,name:"Doc 5", position:{"lat":40.744087,"long":-74.006170}});
-
-  res.send(JSON.stringify(markerData));
-});
-
 app.post('/create_user', function(req,res){
   var postBody = req.body;
   var email_address = postBody.email_address;
@@ -72,6 +62,7 @@ app.post('/create_user', function(req,res){
       max_id = temp_id;
     }
   }
+
   // increment the user_id by one
   var user_id = max_id + 1;
   var file_name = dir + '/' + user_id + ".json";
@@ -148,7 +139,6 @@ app.get('/get_user',function(req,res){
   return;
 });
 
-
 app.post('/create_doctor', function(req,res){
   var postBody = req.body;
   var doctor_id = postBody.doctor_id;
@@ -222,12 +212,12 @@ app.post('/add_appointment',function(req,res){
   return;
 });
 
-app.get('/find_doctor/',function(req,res){
+app.get('/find_doctors',function(req,res){
   var user_id = req.query.user_id;
   var care_type = req.query.care_type;
   var lat = req.query.lat;
   var long = req.query.long;
-  var user_insurance;
+  var user_insurance = req.query.user_insurance;
   var clinic_list = [];
   var doctor_list = [];
   var file_name = './user_file/' + user_id + ".json";
