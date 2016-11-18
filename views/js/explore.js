@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+	$('.caretypetab').click(function(){
+		$('.caretypetab').removeClass('current');
+		$(this).addClass('current');
+	});
 	
 	var START_LAT = 40.741077;
 	var START_LONG = -74.002160;

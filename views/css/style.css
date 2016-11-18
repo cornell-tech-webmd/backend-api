@@ -8952,5 +8952,23 @@ a > img.fh5co-align-center {
   margin-left: auto;
   margin-right: auto;
 }
-
+.caretypetab {
+  padding: 15px;
+  font-size: 18px;
+    text-align: left;
+    float: left!important;
+    font-family: "Montserrat", arial, sans-serif;
+    color: white;
+    z-index: 10;
+    position: relative;
+	margin-top: 5px;
+	border: 0px solid;
+    border-radius: 5px 5px 0 0;
+}
+.caretypetab.current {
+	background-color: #38294b;
+}
+.theme-bg {
+	background-color: #38294b;
+}
 /*# sourceMappingURL=style.css.map */
