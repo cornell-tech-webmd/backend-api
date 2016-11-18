@@ -24,7 +24,7 @@ $(document).ready(function() {
                                           });
                   var START_LAT = 40.741077;
                   var START_LONG = -74.002160;
-                  var ZOOM = 16;
+                  var ZOOM = 15;
                   
                   var patientImage = {
                   url: 'images/you.png',
