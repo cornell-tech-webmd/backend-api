@@ -13,7 +13,6 @@ function GetURLParameter(sParam) {
 }
 
 var user_id = GetURLParameter('user_id');
-var user_profile;
 var care_type = GetURLParameter('care_type');
 if (care_type == null) care_type = 'medical';
 
@@ -39,16 +38,24 @@ $(document).ready(function() {
 	markDoctors();
 
 	function markDoctors() {
-		console.log('markDoctors');
-		$.get('/find_doctors?user_id=1&care_type=medical&user_insurance=Aetna%20Group&lat=40.74107&long=-74.002160', {}, function(res,resp) {
-			console.dir(res);
-			for(var i=0, len=res.length; i<len; i++) {
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(res[i].position.lat,res[i].position.long),
-					label:res[i],
-					map:map
-				});
-			}
-		}, "json");
+		$.get('/get_user?user_id=' + user_id, {}, function(res,resp) {
+			var insur = res.insurance_name;
+			$.get('/find_doctors?user_id=' + user_id + '&care_type=' + care_type + '&user_insurance=' + insur, {}, function(res,resp) {			
+				for (var i = 0; i < res.length; i++) {
+					$.get('/get_doctor?doctor_id=' + res[i], {}, function(res,resp) {
+						var doc = res;
+						console.log(res);
+						$.get('/get_clinic?clinic_id=' + res.clinic_id, {}, function(res,resp) {
+							console.log(res);
+							var marker = new google.maps.Marker({
+								position: new google.maps.LatLng(res.lat, res.long),
+								label:String(doc.doctor_id),
+								map:map
+							});
+						}, "json");
+					}, "json");
+				}
+			}, "json");
+	  	}, "json");
 	}
 });
