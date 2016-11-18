@@ -26,3 +26,20 @@
 .doctorwrapper img {
 	height: 90px;
 }
+.doctorwrapper .details {
+	padding-left: 10px;
+}
+.doctorwrapper .details .name {
+	font-size: 20px;
+	display: block;
+}
+.doctorwrapper .details .stars {
+	width: 70px;
+	height: 15px;
+	display: block;
+	margin-bottom: 10px;
+}
+.btn-override {
+	padding: 10px;
+	border-radius: 4px;
+}
