@@ -16,9 +16,6 @@
     "type": "git",
     "url": "git+https://github.com/cornell-tech-webmd/backend-api.git"
   },
-  "scripts": {
-    "start": "node server.js"
-  },
   "keywords": [
     "backend"
   ],

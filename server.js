@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var fs = require("fs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('views'));
+app.use("/",router);
 
 router.use(function (req,res,next) {
   console.log("/" + req.method);
@@ -16,9 +18,6 @@ router.use(function (req,res,next) {
 router.get("/",function(req,res){
   res.sendFile(path + "index.html");
 });
-
-app.use(express.static('views'));
-app.use("/",router);
 
 function getFiles (dir, files_){
     files_ = files_ || [];
@@ -37,6 +36,17 @@ function getFiles (dir, files_){
 function inRadius (long, lat){
   return true;
 }
+
+app.get('/markers', function(req, res) {
+  var markerData = [];
+  markerData.push({id:2,name:"Doc 2", position:{"lat":40.739070,"long":-74.000000}});
+  markerData.push({id:3,name:"Doc 3", position:{"lat":40.741077,"long":-74.002160}});
+  markerData.push({id:4,name:"Doc 4", position:{"lat":40.743080,"long":-74.004165}});
+  markerData.push({id:5,name:"Doc 5", position:{"lat":40.744087,"long":-74.006170}});
+
+  res.send(JSON.stringify(markerData));
+});
+
 app.post('/create_user', function(req,res){
   var postBody = req.body;
   var email_address = postBody.email_address;
