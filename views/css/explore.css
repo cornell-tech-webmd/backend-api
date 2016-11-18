@@ -1,4 +1,15 @@
 #map_canvas {
-	width: 100%;
 	height: 200px;
+	background-color: #eee;
+}
+#navbar-filters {
+	color: #ddd;
+	font-size: 12px;
+	padding: 10px;
+}
+#navbar-filters div {
+	padding: 0px 10px;
+	margin: 0px 5px;
+	background-color: #523d6d;	
+	display: inline-block;
 }

@@ -140,7 +140,7 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 20px;
 	@include transition(.5s);
 	@include border-radius(0px);
-	margin-top: 20px;
+	margin-top: 5px;
 	
 	&.sleep {
 	
