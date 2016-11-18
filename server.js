@@ -66,7 +66,7 @@ app.post('/create_user', function(req,res){
       // join those numbers
       temp_id = temp_id.join("");
       temp_id = parseInt(temp_id);
-      console.log(temp_id);
+      // console.log(temp_id);
     }
     if(temp_id > max_id){
       max_id = temp_id;
@@ -79,7 +79,7 @@ app.post('/create_user', function(req,res){
   if (!fs.existsSync(file_name)){
     fs.writeFile(file_name, JSON.stringify(postBody), function (err) {
      if (err) return console.log(err);})
-    res.status(200).send(user_id);
+    res.status(200).send(""+user_id);
   }
   else{
     res.status(400).send('user_id exists, cannot create');

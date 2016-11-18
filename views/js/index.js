@@ -31,10 +31,11 @@ var user_id;
   				type: "POST",
   				url: "/create_user",
   				data: post_body,
+                dataType: "json",
   				success: function(data) {
                 	window.location = "explore.html?user_id=" + data;
             	},
-  				dataType: "application/json"
+  				
 			});
 		}
 	});
